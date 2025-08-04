@@ -1,11 +1,11 @@
 services:
-  pihole:
+  pihole-primary:
     container_name: pihole
     image: pihole/pihole:latest
     networks:
       macvlan_net:
-        ipv4_address: ${ip_address}
-    mac_address: ${mac_address}
+        ipv4_address: ${pihole_primary_ip_address}
+    mac_address: ${pihole_primary_mac_address}
     cap_drop:
       - ALL
     cap_add:
@@ -17,8 +17,7 @@ services:
     #  - /tmp
     #  - /var/log
     volumes:
-      - pihole_config:/etc/pihole
-      - dnsmasq_config:/etc/dnsmasq.d
+      - pihole_primary_config:/etc/pihole
     environment:
       TZ: ${TIMEZONE}
       WEBPASSWORD: ${WEBPASSWORD}
@@ -49,5 +48,4 @@ networks:
           ip_range: ${macvlan_ip_range}
 
 volumes:
-  pihole_config:
-  dnsmasq_config:
+  pihole_primary_config:
