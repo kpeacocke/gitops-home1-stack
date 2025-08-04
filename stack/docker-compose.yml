@@ -11,8 +11,8 @@ services:
       - dnsmasq_config:/etc/dnsmasq.d
     environment:
       TZ: 'Australia/Sydney'
-      WEBPASSWORD: 'your_secure_password'
-      DNSMASQ_USER: 'root'
+      WEBPASSWORD: ${WEBPASSWORD}
+      DNSMASQ_USER: ${DNSMASQ_USER}
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
