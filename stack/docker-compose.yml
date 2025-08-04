@@ -1,0 +1,33 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.5.53
+    mac_address: "02:42:ac:11:00:02"
+    volumes:
+      - pihole_config:/etc/pihole
+      - dnsmasq_config:/etc/dnsmasq.d
+    environment:
+      TZ: 'Australia/Sydney'
+      WEBPASSWORD: 'your_secure_password'
+      DNSMASQ_USER: 'root'
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+
+networks:
+  macvlan_net:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 192.168.5.0/24
+          gateway: 192.168.5.1
+          ip_range: 192.168.5.48/28
+
+volumes:
+  pihole_config:
+  dnsmasq_config:
